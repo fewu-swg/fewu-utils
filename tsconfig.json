@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "ES2022",
+      "declaration": true,
+      "outDir": "dist",
+      "declarationDir": "dist-types",
+      "rootDir": "src",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "strict": true,
+      "skipLibCheck": true
+    },
+    "include": ["src/index.mts", "src/**/*.mts"],
+    "exclude": ["node_modules"]
+  }

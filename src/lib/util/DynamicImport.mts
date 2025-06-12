@@ -1,0 +1,27 @@
+import { existsSync, readFileSync } from "fs";
+import { join } from 'path';
+
+async function dynamicImport<ExpectedExportType>(id: string){
+    let path = id;
+    let result = null;
+    try {
+        result = await import(path);
+    } catch (e) {
+        try {
+            path = join(process.cwd(), 'node_modules', id);
+            if(!existsSync(path)){
+                path = id; // absolute import
+            }
+            if(existsSync(path)){
+                let packageJson = JSON.parse(readFileSync(join(path, 'package.json')).toString());
+                result = await import('file://'+join(path,packageJson.main));
+            }
+        } catch (e) {
+            console.error(`[Util/DynamicImport] Failed to import ${id}, returns with null.`);
+            return null;
+        }
+    }
+    return result as ExpectedExportType;
+}
+
+export default dynamicImport;
