@@ -18,4 +18,6 @@ for(let i = 2;i<process.argv.length;i++){
     (Argv[in_arg] as string[]).push(process.argv[i]);
 }
 
-export default Argv;
+export {
+    Argv
+};

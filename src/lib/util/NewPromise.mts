@@ -1,4 +1,4 @@
-class NewPromise {
+export class NewPromise {
     static withResolvers<T>(): { promise: Promise<T>, resolve: (value: T | PromiseLike<T>) => any, reject: (value: T | PromiseLike<T>) => any } {
         let resolve: (value: T | PromiseLike<T>) => any = () => void 0;
         let reject: (value: T | PromiseLike<T>) => any = () => void 0;
@@ -13,5 +13,3 @@ class NewPromise {
         }
     }
 }
-
-export default NewPromise;

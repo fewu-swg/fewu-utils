@@ -1,4 +1,4 @@
-class Text {
+export class Text {
     static countWords(content: string): number{
         content = content.toString();
         let count = 0;
@@ -17,5 +17,3 @@ class Text {
         return content.replace(/[\,\.\<\>\ \-\+\=\~\`\?\/\|\\\!\@\#\$\%\^\&\*\(\)\[\]\{\}\:\;"'～·「」；：‘’“”，。《》？！￥…、（）]+/g, replacer);
     }
 }
-
-export default Text;

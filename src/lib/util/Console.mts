@@ -1,5 +1,5 @@
 import { EOL } from "os";
-import Argv from "./Argv.mjs";
+import {Argv} from "./Argv.mjs";
 
 declare type _ConsoleColors = typeof Console.colors;
 
@@ -13,7 +13,7 @@ declare type ConsoleComponent = {
 
 declare type ConsoleAcceptableArgument = ConsoleComponent | string | Error | Array<string>;
 
-class Console {
+export class Console {
     static controlStart = '\x1b[';
     static controlEnd = '\x1b[0m';
     static colors = {
@@ -105,5 +105,3 @@ class Console {
         },
     }
 }
-
-export default Console;

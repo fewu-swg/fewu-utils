@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "fs";
 import { join } from 'path';
 
-async function dynamicImport<ExpectedExportType>(id: string){
+export async function dynamicImport<ExpectedExportType>(id: string){
     let path = id;
     let result = null;
     try {
@@ -23,5 +23,3 @@ async function dynamicImport<ExpectedExportType>(id: string){
     }
     return result as ExpectedExportType;
 }
-
-export default dynamicImport;

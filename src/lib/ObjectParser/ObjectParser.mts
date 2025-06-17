@@ -2,9 +2,7 @@ import { BasicContext, Parser } from '@fewu-swg/abstract-types';
 import { basename, extname } from 'path';
 import { readFile } from 'fs/promises';
 import { readFileSync } from 'fs';
-import NewPromise from '../util/NewPromise.mjs';
-import NodeModules from '../util/NodeModules.mjs';
-import dynamicImport from '../util/DynamicImport.mjs';
+import { NewPromise, NodeModules, dynamicImport } from '../mod.mjs';
 
 declare interface ParseOptions {
     async?: boolean,

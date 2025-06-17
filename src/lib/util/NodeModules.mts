@@ -11,7 +11,7 @@ declare type TraverseOptions = {
     ignoreLink: boolean
 }
 
-export default class NodeModules {
+export class NodeModules {
     static async traverseModuleDirectory(modules_dir: string, options: TraverseOptions = {
         ignoreLink: true
     }): Promise<string[]> {
