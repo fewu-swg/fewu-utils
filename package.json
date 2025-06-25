@@ -1,6 +1,6 @@
 {
   "name": "@fewu-swg/fewu-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Fewu's utilities.",
   "license": "GPL-2.0-only",
   "author": "0xarch",
@@ -19,6 +19,6 @@
     "access": "public"
   },
   "scripts": {
-    "prepublish": "rm dist/ -r; pnpm tsc"
+    "prepublish": "rm dist/ dist-types/ -r; pnpm tsc"
   }
 }
