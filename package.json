@@ -7,6 +7,9 @@
   "type": "module",
   "types": "./dist-types/index.d.mts",
   "main": "./dist/index.mjs",
+  "dependencies": {
+    "yaml": "^2.8.0"
+  },
   "devDependencies": {
     "@fewu-swg/abstract-types": "^1.0.3",
     "@types/node": "^24.0.1",
@@ -15,7 +18,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "yaml": "^2.8.0"
+  "scripts": {
+    "prepublish": "rm dist/ -r; pnpm tsc"
   }
 }
