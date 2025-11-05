@@ -1,4 +1,4 @@
-import { basename, dirname, join } from "path";
+import { basename, dirname, isAbsolute, join, normalize } from "path";
 import { lstat, readdir, readFile, readlink } from "fs/promises";
 import { existsSync, lstatSync } from "fs";
 import { NewPromise } from "./NewPromise.mjs";
@@ -16,6 +16,9 @@ export class NodeModulesPnpmResolver {
     constructor() { }
 
     async getModules(node_modules_dir: string, blacklist: string[] = []): Promise<string[]> {
+
+        node_modules_dir = normalize(node_modules_dir);
+
         if (!existsSync(node_modules_dir)) {
             console.warn(`Trying to scan non-existed path ${node_modules_dir}, returns with empty array.`);
             return [];
@@ -42,7 +45,12 @@ export class NodeModulesPnpmResolver {
             let stat = await lstat(path);
             if (stat.isSymbolicLink()) {
                 let l = await readlink(path);
-                return join(dirname(path), l);
+                // 检查是否是绝对路径
+                if (isAbsolute(l)) {
+                    return l; // 直接返回绝对路径
+                } else {
+                    return join(dirname(path), l);
+                }
             }
             return path;
         });
