@@ -77,7 +77,7 @@ export class NodeModulesPnpmResolver {
             }
             return path;
         });
-        final_module_paths = [...new Set(final_module_paths)];
+        final_module_paths = [...new Set(final_module_paths)].map(normalize);
         return final_module_paths;
     }
 
