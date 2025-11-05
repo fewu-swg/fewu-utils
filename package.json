@@ -19,6 +19,6 @@
     "access": "public"
   },
   "scripts": {
-    "prepublish": "node ./script/prepub-rm.mjs ; pnpm tsc"
+    "prepublish": "node ./script/prepub-rm.mjs"
   }
 }
