@@ -1,4 +1,4 @@
-import { basename, dirname, isAbsolute, join, normalize } from "path";
+import { basename, dirname, isAbsolute, join, normalize, resolve } from "path";
 import { lstat, readdir, readFile, readlink } from "fs/promises";
 import { existsSync, lstatSync } from "fs";
 import { NewPromise } from "./NewPromise.mjs";
@@ -77,7 +77,7 @@ export class NodeModulesPnpmResolver {
             }
             return path;
         });
-        final_module_paths = [...new Set(final_module_paths)].map(normalize);
+        final_module_paths = [...new Set(final_module_paths)].map(v=>resolve(v));
         return final_module_paths;
     }
 
