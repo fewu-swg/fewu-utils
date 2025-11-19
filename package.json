@@ -1,6 +1,6 @@
 {
   "name": "@fewu-swg/fewu-utils",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Fewu's utilities.",
   "license": "GPL-2.0-only",
   "author": "0xarch",
@@ -8,11 +8,13 @@
   "types": "./dist-types/index.d.mts",
   "main": "./dist/index.mjs",
   "dependencies": {
+    "semver": "^7.7.3",
     "yaml": "^2.8.0"
   },
   "devDependencies": {
     "@fewu-swg/abstract-types": "^1.0.3",
     "@types/node": "^24.0.1",
+    "@types/semver": "^7.7.1",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

@@ -2,6 +2,8 @@ import { basename, dirname, isAbsolute, join, normalize, resolve } from "path";
 import { lstat, readdir, readFile, readlink } from "fs/promises";
 import { existsSync, lstatSync } from "fs";
 import { NewPromise } from "./NewPromise.mjs";
+import { Argv } from "./Argv.mjs";
+import NodeModulePM from "./mod/npm.mjs";
 
 declare type DeclaredDependencies = {
     dependencies: Record<string, string>,
@@ -77,27 +79,28 @@ export class NodeModulesPnpmResolver {
             }
             return path;
         });
-        final_module_paths = [...new Set(final_module_paths)].map(v=>resolve(v));
+        final_module_paths = [...new Set(final_module_paths)].map(v => resolve(v));
         return final_module_paths;
     }
 
-    static async deprecated_getPnpmModules() {
-        let node_modules_dir = join(process.cwd(), 'node_modules/.pnpm');
+    // static async deprecated_getPnpmModules() {
+    //     let node_modules_dir = join(process.cwd(), 'node_modules/.pnpm');
 
-        let pnpm_tops = await readdir(node_modules_dir);
+    //     let pnpm_tops = await readdir(node_modules_dir);
 
-        pnpm_tops = pnpm_tops.filter(v => v != 'lock.yaml' && v != 'node_modules');
+    //     pnpm_tops = pnpm_tops.filter(v => v != 'lock.yaml' && v != 'node_modules');
 
-        pnpm_tops = pnpm_tops.map(v => join(node_modules_dir, v, "node_modules"));
+    //     pnpm_tops = pnpm_tops.map(v => join(node_modules_dir, v, "node_modules"));
 
-        let all_results = (await Promise.all(pnpm_tops.map(async v => NodeModules.traverseModuleDirectory(v)))).flat(1);
+    //     let all_results = (await Promise.all(pnpm_tops.map(async v => NodeModules.traverseModuleDirectory(v)))).flat(1);
 
-        return all_results;
-    }
+    //     return all_results;
+    // }
 }
 
 export class NodeModules {
     static pnpm = new NodeModulesPnpmResolver();
+    static npm = new NodeModulePM(process.cwd());
 
     static async traverseModuleDirectory(modules_dir: string, options: TraverseOptions = {
         ignoreLink: true
@@ -145,21 +148,27 @@ export class NodeModules {
         return all_results;
     }
 
-    static async getAllModules() {
-        let node_modules_dir = join(process.cwd(), 'node_modules');
-        if (!existsSync(join(node_modules_dir, ".pnpm"))) {
-            // classic npm
-            let all_results = await this.traverseModuleDirectory(node_modules_dir);
-
-            return all_results;
+    static async getAllModules(node_modules_dir = join(process.cwd(), 'node_modules')) {
+        if (Argv['--experimental-npm']) {
+            let target_dir = normalize(dirname(node_modules_dir));
+            if(target_dir == process.cwd()) {
+                return this.npm.getAllPackagePaths();
+            } else {
+                let tempNpmInstance = new NodeModulePM(target_dir);
+                return tempNpmInstance.getAllPackagePaths();
+            }
         } else {
-            // pnpm
-            return await this.pnpm.getModules(node_modules_dir);
+            if (!existsSync(join(node_modules_dir, ".pnpm"))) {
+                // classic npm
+                let all_results = await this.traverseModuleDirectory(node_modules_dir);
+
+                return all_results;
+            } else {
+                // pnpm
+                return await this.pnpm.getModules(node_modules_dir);
+            }
         }
-
     }
-
-
 
     static #declaredDependencies?: DeclaredDependencies;
 
